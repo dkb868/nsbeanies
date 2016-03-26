@@ -24,7 +24,7 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html')
 
-@app.route('/list_channels')
+@app.route('/list_channels/')
 def list_channels():
     channels = ['UCqpDX3iK-C8rM_AfsXMcFQQ']
     return render_template('list_channels.html', channels=channels)
@@ -39,7 +39,7 @@ def get_stats(channelId):
     negative = 0
     adult = 0
     polarity = 0.6
-    subjectivity = 0.13
+    subjectivity = 160
 
     # above ^ temporarily* hardcoded
 
@@ -47,9 +47,9 @@ def get_stats(channelId):
         total += 1
         s =  sentiment['twitter']
         if (s == 'positive'):
-            positive+=1
+            positive+=0.2
         elif (s == 'negative'):
-            negative+=1
+            negative+=12
 
         a = sentiment['adult']
         if(a=='True'):

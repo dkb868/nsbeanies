@@ -46,7 +46,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.cyan-light_blue.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.deep_purple-pink.min.css">
     <link rel="stylesheet" href={{url_for('static', filename='css/styles.css')}}>
     <style>
     #view-source {
@@ -71,7 +71,7 @@
         <header class="demo-drawer-header">
           <img src={{url_for('static', filename='images/user.jpg')}} class="demo-avatar">
           <div class="demo-avatar-dropdown">
-            <span>hello@example.com</span>
+            <span>Bryan Cranston</span>
           </div>
         </header>
       </div>
@@ -84,9 +84,9 @@
             </div>
             <div class="mdl-card__supporting-text mdl-color-text--grey-600">
               {% if (sentiment.polarity / sentiment.total) > 0.8 %}
-                This channel has a very high bias please pay attention to your child.
+                This channel's comments have a very high bias please pay attention to your child.
               {% else %}
-                Awesome! Your kid is safe. Channel doesn't have a high bias
+                Awesome! Your kid is safe. Channel's comment don't have a high bias
 
               {% endif %}
             </div>
@@ -98,9 +98,9 @@
             </div>
             <div class="mdl-card__supporting-text mdl-color-text--grey-600">
               {% if (sentiment.subjectivity / sentiment.total) > 0.8 %}
-                This channel Appears to have more opions than facts please take note.
+                This channel's comments Appears to have more opions than facts please take note.
               {% else %}
-                This channel is a healthy source of knowledge for your kid
+                This channel's comments is a healthy source of knowledge for your kid
               {% endif %}
             </div>
           </div>
@@ -111,9 +111,9 @@
             </div>
             <div class="mdl-card__supporting-text mdl-color-text--grey-600">
               {% if (sentiment.positive / sentiment.total) < 0.5 %}
-                This channel leans towards negativity please pay special care.
+                This channel's comments leans towards negativity please pay special care.
               {% else %}
-                Channel leans towards high positivity. Your kid will enjoy this.
+                Channel's comments leans towards high positivity. Your kid will enjoy this.
               {% endif %}
             </div>
           </div>
@@ -124,15 +124,15 @@
             </div>
             <div class="mdl-card__supporting-text mdl-color-text--grey-600">
               {% if (sentiment.adult/ sentiment.total) > 0.5 %}
-                This channel moves towards high adult content. Parental guidance needed.
+                This channel's comments move towards high adult content. Parental guidance needed.
               {% else %}
-                Channel is safe for your kid, parental guidance still adviced.
+                Channel's comments are safe for your kid, parental guidance still advised.
               {% endif %}
             </div>
           </div>
         </div>
         <div>
-          <div
+
         </div>
       </main>
     </div>
