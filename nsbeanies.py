@@ -16,13 +16,24 @@ import json
 
 
 app = Flask(__name__)
-
 # Datum Box API_KEY
 API_KEY = "950ac57f58cc94268ac3cf43161c736b"
 datum_box = DatumBox(API_KEY)
 alchemyapi2 = AlchemyAPI()
 
 
+
+
+import smtplib
+userAddress ="postmaster@sandboxf32a8e5d26ea4769a1e20168754971a5.mailgun.org"
+userPassword ="8e14d70dd060c158212a4f7b438f7b79"
+server = smtplib.SMTP('smtp.mailgun.org', 587)
+server.starttls()
+server.login(userAddress, userPassword)
+
+msg = "YOUR MESSAGE!"
+server.sendmail(userAddress,"krystal.folkes@gmail.com", msg)
+server.quit()
 
 for comments in db.nsbeanie_comments.find():
      blob = TextBlob( comments['text'])
