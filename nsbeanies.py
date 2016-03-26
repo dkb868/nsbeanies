@@ -29,19 +29,28 @@ def hello_world():
 @app.route('/get_stats/<channelId>')
 def get_stats(channelId):
     sentiments = db.nsbeanie_sentiments.find()
+    total = 0
     positive = 0
     negative = 0
+    adult = 0
     for sentiment in sentiments:
+        total += 1
         s =  sentiment['twitter']
         if (s == 'positive'):
             positive+=1
         elif (s == 'negative'):
             negative+=1
+
+        a = sentiment['adult']
+        if(a=='True'):
+            adult += 1
+            print "Adult works? OL"
+
     sentiment = {
         "positive": positive,
         "negative": negative
     }
-    return render_template('channel_stats.html', sentiment=sentiment, sentiments=sentiments)
+    return render_template('channel_stats.html', sentiment=sentiment, sentiments=sentiments, adult=adult, total=total)
 
 # route to post a channel
 @app.route('/add_channel/', methods=['GET', 'POST'])
