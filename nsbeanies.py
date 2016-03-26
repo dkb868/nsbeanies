@@ -16,6 +16,7 @@ from authomatic.adapters import WerkzeugAdapter
 from authomatic import Authomatic
 import authomatic.providers.oauth2 as oauth2
 
+
 app = Flask(__name__)
 # Datum Box API_KEY
 API_KEY = "950ac57f58cc94268ac3cf43161c736b"
