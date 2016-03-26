@@ -29,7 +29,7 @@ CONFIG = {
         'class_': oauth2.Google,
         'consumer_key': '########################',
         'consumer_secret': '########################',
-        'scope': oauth2.Google.user_info_scope + ['https://gdata.youtube.com'],
+        'scope': oauth2.Google.user_info_scope + ['https://www.googleapis.com/youtube/v3/'],
     },
 }
 
