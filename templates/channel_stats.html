@@ -77,33 +77,140 @@
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-          <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
-            <div id="demo-graph" style="width: 800px; height: 500px;">
+          <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+              <div id="demo-graph" style="width:200px">
+              </div>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+              {% if (10 / sentiment.total) > 0.8 %}
+                This channel has a very high bias please pay attention to your child.
+              {% else %}
+                Awesome! Your kid is safe. Channel doesn't have a high bias
+
+              {% endif %}
             </div>
           </div>
+          <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+              <div id="demo-graph1" style="width:200px">
+              </div>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+              {% if (10 / sentiment.total) > 0.8 %}
+                This channel Appears to have more opions than facts please take note.
+              {% else %}
+                This channel is a health source of knowledge for your kid
+              {% endif %}
+            </div>
+          </div>
+          <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+              <div id="demo-graph2" style="width:200px">
+              </div>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+              {% if (sentiment.positive / sentiment.total) < 0.5 %}
+                This channel leans towards negativity please pay special care.
+              {% else %}
+                Channel leans towards high positivity. Your kid will enjoy this.
+              {% endif %}
+            </div>
+          </div>
+          <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+              <div id="demo-graph3" style="width:200px">
+              </div>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+              {% if (sentiment.adult/ sentiment.total) > 0.5 %}
+                This channel moves towards high adult content. Parental guidance needed.
+              {% else %}
+                Channel is safe for your kid, parental guidance still adviced.
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
         </div>
       </main>
     </div>
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Sentiment', 'Score'],
-          ['positive',     {{sentiment.positive}}],
-          ['negative',     {{sentiment.negative}}]
+      google.charts.load('current', {'packages':['gauge']});
+
+      google.charts.setOnLoadCallback(drawChart1);
+      function drawChart1() {
+        var data1 = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Polarity', {{(80 / sentiment.total) * 100}}],
         ]);
 
         var options = {
-          title: 'Channel Sentiment',
-          pieHole: 0.4,
-          is3D: true
+          redFrom: 80, redTo: 100,
+          yellowFrom:60, yellowTo: 80,
+          minorTicks: 5
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('demo-graph'));
+        var chart = new google.visualization.Gauge(document.getElementById('demo-graph'));
+
+        chart.draw(data1, options);
+      }
+
+      google.charts.setOnLoadCallback(drawChart2);
+      function drawChart2() {
+        var data2 = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Subjectivity', {{(10 / sentiment.total) * 100}}],
+        ]);
+
+        var options = {
+          redFrom: 80, redTo: 100,
+          yellowFrom:60, yellowTo: 80,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('demo-graph1'));
+
+        chart.draw(data2, options);
+      }
+
+      google.charts.setOnLoadCallback(drawChart3);
+      function drawChart3() {
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Positive', {{(sentiment.positive / sentiment.total) * 100}}],
+        ]);
+
+        var options = {
+          redFrom: 80, redTo: 100,
+          yellowFrom:60, yellowTo: 80,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('demo-graph2'));
+
         chart.draw(data, options);
+      }
+
+      google.charts.setOnLoadCallback(drawChart4);
+      function drawChart4() {
+        var data3 = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Adult Content', {{(sentiment.adult / sentiment.total) * 100}}]
+        ]);
+
+        var options = {
+          redFrom: 80, redTo: 100,
+          yellowFrom:60, yellowTo: 80,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('demo-graph3'));
+
+        chart.draw(data3, options);
       }
     </script>
   </body>
