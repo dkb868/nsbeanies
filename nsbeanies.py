@@ -8,6 +8,7 @@ from alchemyapi import AlchemyAPI
 from pymongo import MongoClient
 client = MongoClient('mongodb://mitrikyle:Allthatiknow1@ec2-52-11-150-10.us-west-2.compute.amazonaws.com:27017')
 db = client.dummyDB
+from flask import Flask
 from textblob import TextBlob
 from DatumBox import DatumBox
 import json
@@ -15,6 +16,7 @@ from flask import Flask, render_template, request, make_response
 from authomatic.adapters import WerkzeugAdapter
 from authomatic import Authomatic
 import authomatic.providers.oauth2 as oauth2
+
 
 app = Flask(__name__)
 # Datum Box API_KEY
