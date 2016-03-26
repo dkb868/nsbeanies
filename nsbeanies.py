@@ -48,9 +48,11 @@ def get_stats(channelId):
 
     sentiment = {
         "positive": positive,
-        "negative": negative
+        "negative": negative,
+        "adult" : adult,
+        "total" : total
     }
-    return render_template('channel_stats.html', sentiment=sentiment, sentiments=sentiments, adult=adult, total=total)
+    return render_template('channel_stats.html', sentiment=sentiment, sentiments=sentiments)
 
 # route to post a channel
 @app.route('/add_channel/', methods=['GET', 'POST'])
