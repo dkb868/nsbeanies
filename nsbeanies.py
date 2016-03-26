@@ -66,10 +66,7 @@ def login(provider_name):
                     ## I'm assuming there's a system that's connecting channel IDs with phone numbers.
                 ## Schema = {channelID: x, phone: y}
 
-        return render_template(user_name=result.user.name,
-                               user_email=result.user.email,
-                               user_id=result.user.id,
-                               youtube_videos=videos)
+        return render_template() # phone num and whatever in here
     return response
 
 
