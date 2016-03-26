@@ -50,11 +50,21 @@ def login(provider_name):
             result.user.update()
 
             # Talk to Google YouTube API
+            ## get the phone number somewhere here?? idk? take their phone number then open the auth page????
             if result.user.credentials:
                 response = result.provider.access('https://gdata.youtube.com/'
                     'feeds/api/users/default/playlists?alt=json')
                 if response.status == 200:
-                    videos = response.data.get('feed', {}).get('entry', [])
+                        for item in response.data.get('items', []):
+                            if not db.nsbeanie_users.find_one(item.get("id", "")):
+                                userDic = {
+                                    "_id": item.get("id", ""),
+                                    "phone" : "",
+                                }
+                            else:
+                                pass ## cause i guess there's nothing really left to do.
+                    ## I'm assuming there's a system that's connecting channel IDs with phone numbers.
+                ## Schema = {channelID: x, phone: y}
 
         return render_template(user_name=result.user.name,
                                user_email=result.user.email,
