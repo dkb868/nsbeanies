@@ -8,23 +8,73 @@ from alchemyapi import AlchemyAPI
 from pymongo import MongoClient
 client = MongoClient('mongodb://mitrikyle:Allthatiknow1@ec2-52-11-150-10.us-west-2.compute.amazonaws.com:27017')
 db = client.dummyDB
-from flask import Flask
 from textblob import TextBlob
 from DatumBox import DatumBox
 import json
-
-
-
-
+from flask import Flask, render_template, request, make_response
+from authomatic.adapters import WerkzeugAdapter
+from authomatic import Authomatic
+import authomatic.providers.oauth2 as oauth2
 
 app = Flask(__name__)
-
 # Datum Box API_KEY
 API_KEY = "950ac57f58cc94268ac3cf43161c736b"
 datum_box = DatumBox(API_KEY)
 alchemyapi2 = AlchemyAPI()
 
 
+
+CONFIG = {
+    'google': {
+        'class_': oauth2.Google,
+        'consumer_key': '########################',
+        'consumer_secret': '########################',
+        'scope': oauth2.Google.user_info_scope + ['https://gdata.youtube.com'],
+    },
+}
+
+authomatic = Authomatic(CONFIG, 'random secret string for session signing')
+
+
+@app.route('/login/<provider_name>/', methods=['GET', 'POST']) # provider_name = "google"
+def login(provider_name):
+    response = make_response()
+
+    # Authenticate the user
+    result = authomatic.login(WerkzeugAdapter(request, response), provider_name)
+
+    if result:
+        videos = []
+        if result.user:
+            # Get user info
+            result.user.update()
+
+            # Talk to Google YouTube API
+            if result.user.credentials:
+                response = result.provider.access('https://gdata.youtube.com/'
+                    'feeds/api/users/default/playlists?alt=json')
+                if response.status == 200:
+                    videos = response.data.get('feed', {}).get('entry', [])
+
+        return render_template(user_name=result.user.name,
+                               user_email=result.user.email,
+                               user_id=result.user.id,
+                               youtube_videos=videos)
+    return response
+
+
+
+
+import smtplib
+userAddress ="postmaster@sandboxf32a8e5d26ea4769a1e20168754971a5.mailgun.org"
+userPassword ="8e14d70dd060c158212a4f7b438f7b79"
+server = smtplib.SMTP('smtp.mailgun.org', 587)
+server.starttls()
+server.login(userAddress, userPassword)
+
+msg = "YOUR MESSAGE!"
+server.sendmail(userAddress,"krystal.folkes@gmail.com", msg)
+server.quit()
 
 for comments in db.nsbeanie_comments.find():
      blob = TextBlob( comments['text'])
