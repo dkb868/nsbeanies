@@ -64,6 +64,17 @@ def get_stats(channelId):
         "subjectivity": subjectivity,
         "total" : total
     }
+
+    # Download the twilio-python library from http://twilio.com/docs/libraries
+    from twilio.rest import TwilioRestClient
+
+    # Find these values at https://twilio.com/user/account
+    account_sid = "AC74d3f913d8417e3da6fe763e7119db38"
+    auth_token = "3efc44c6e1aa92a223d77e6445bcf5ed"
+    client = TwilioRestClient(account_sid, auth_token)
+
+    message = client.messages.create(to="+14804943646", from_="+12028499415",
+                                         body="Your child may be a victim of cyberbullying, go to beanie's website for more information. ")
     return render_template('channel_stats.html', sentiment=sentiment, sentiments=sentiments)
 
 # route to post a channel
