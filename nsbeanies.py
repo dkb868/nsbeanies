@@ -12,8 +12,8 @@ from flask import Flask
 from textblob import TextBlob
 from DatumBox import DatumBox
 import json
-
-
+import authomatic
+import auth_config as config
 
 app = Flask(__name__)
 # Datum Box API_KEY
