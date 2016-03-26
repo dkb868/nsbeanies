@@ -39,7 +39,76 @@ datum_box = DatumBox(API_KEY)
          #print(datum_box.twitter_sentiment_analysis(sentence))
          #print(datum_box.is_adult_content(sentence))
 
+for comments in db.nsbeanie_comments.find():
+     comment_id = comments['_id']
+     blob = TextBlob( comments['text'])
+     for sentence in blob.sentences:
+         print(sentence.sentiment.polarity)
+         print(sentence.sentiment)
+         print(sentence.correct())
+         print(datum_box.twitter_sentiment_analysis(sentence))
+         print(datum_box.is_adult_content(sentence))
 
+         polarity = str(sentence.sentiment.polarity)
+         sentiment = str(sentence.sentiment)
+         correct = str(sentence.correct())
+         twitter = str(datum_box.twitter_sentiment_analysis(sentence))
+         adult= str(datum_box.is_adult_content(sentence))
+         response = alchemyapi2.language('text', blob)
+
+         if response['status'] == 'OK':
+            print('## Response Object ##')
+            print(json.dumps(response, indent=4))
+            language_response = (json.dumps(response, indent=4))
+
+
+
+         if response['status'] == 'OK':
+            print('## Response Object ##')
+            categories_response = (json.dumps(response, indent=4))
+
+
+
+         if response['status'] == 'OK':
+            print('## Response Object ##')
+            print(json.dumps(response, indent=4))
+            targetSentiment = (json.dumps(response, indent=4))
+
+# route to post one channel to database
+
+
+
+         if response['status'] == 'OK':
+            print('## Response Object ##')
+            print(json.dumps(response, indent=4))
+            keywords_response = (json.dumps(response, indent=4))
+
+            print('')
+            print('## Keywords ##')
+            for keyword in response['keywords']:
+                print('text: ', keyword['text'].encode('utf-8'))
+                print('relevance: ', keyword['relevance'])
+                print('sentiment: ', keyword['sentiment']['type'])
+                if 'score' in keyword['sentiment']:
+                    print('sentiment score: ' + keyword['sentiment']['score'])
+                print('')
+         else:
+            print('Error in keyword extaction call: ', response['statusInfo'])
+
+         # save sentiment
+         sentiment = {
+             'polarity' : polarity,
+             'sentiment' : sentiment,
+             'correct' : correct,
+             'twitter' : twitter,
+             'adult' : adult,
+        #     'language_response' :language_response,
+      #       'categories_response' : categories_response,
+      #       'targetSentiment' : targetSentiment,
+      #       'keywords_response' : keywords_response
+         }
+         db.nsbeanie_sentiments.insert_one(sentiment)
+         print "succesfully inserted"
 
 
 
@@ -61,10 +130,7 @@ def get_stats(channelId):
         "positive": positive,
         "negative": negative
     }
-
     return render_template('channel_stats.html', sentiment=sentiment)
-
-# route to post one channel to database
 
 
 
