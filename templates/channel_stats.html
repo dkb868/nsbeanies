@@ -83,7 +83,7 @@
               </div>
             </div>
             <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-              {% if (10 / sentiment.total) > 0.8 %}
+              {% if (sentiment.polarity / sentiment.total) > 0.8 %}
                 This channel has a very high bias please pay attention to your child.
               {% else %}
                 Awesome! Your kid is safe. Channel doesn't have a high bias
@@ -97,10 +97,10 @@
               </div>
             </div>
             <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-              {% if (10 / sentiment.total) > 0.8 %}
+              {% if (sentiment.subjectivity / sentiment.total) > 0.8 %}
                 This channel Appears to have more opions than facts please take note.
               {% else %}
-                This channel is a health source of knowledge for your kid
+                This channel is a healthy source of knowledge for your kid
               {% endif %}
             </div>
           </div>
@@ -145,7 +145,7 @@
       function drawChart1() {
         var data1 = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Polarity', {{(80 / sentiment.total) * 100}}],
+          ['Polarity', {{(sentiment.polarity / sentiment.total) * 100}}],
         ]);
 
         var options = {
@@ -163,7 +163,7 @@
       function drawChart2() {
         var data2 = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Subjectivity', {{(10 / sentiment.total) * 100}}],
+          ['Subjectivity', {{(sentiment.subjectivity / sentiment.total) * 100}}],
         ]);
 
         var options = {
