@@ -52,8 +52,7 @@ def login(provider_name):
             # Talk to Google YouTube API
             ## get the phone number somewhere here?? idk? take their phone number then open the auth page????
             if result.user.credentials:
-                response = result.provider.access('https://gdata.youtube.com/'
-                    'feeds/api/users/default/playlists?alt=json')
+                response = result.provider.access('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true')
                 if response.status == 200:
                         for item in response.data.get('items', []):
                             if not db.nsbeanie_users.find_one(item.get("id", "")):
