@@ -22,7 +22,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return render_template('index.html')
+
+@app.route('/list_channels')
+def list_channels():
+    channels = ['UCqpDX3iK-C8rM_AfsXMcFQQ']
+    return render_template('list_channels.html', channels=channels)
 
 
 # route to get all the stats for one channel
@@ -33,6 +38,11 @@ def get_stats(channelId):
     positive = 0
     negative = 0
     adult = 0
+    polarity = 0.6
+    subjectivity = 0.13
+
+    # above ^ temporarily* hardcoded
+
     for sentiment in sentiments:
         total += 1
         s =  sentiment['twitter']
@@ -50,6 +60,8 @@ def get_stats(channelId):
         "positive": positive,
         "negative": negative,
         "adult" : adult,
+        "polarity": polarity,
+        "subjectivity": subjectivity,
         "total" : total
     }
     return render_template('channel_stats.html', sentiment=sentiment, sentiments=sentiments)
