@@ -25,6 +25,10 @@ alchemyapi2 = AlchemyAPI()
 
 
 import smtplib
+# Here are the email package modules we'll need
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+msg = MIMEMultipart()
 userAddress ="postmaster@sandboxf32a8e5d26ea4769a1e20168754971a5.mailgun.org"
 userPassword ="8e14d70dd060c158212a4f7b438f7b79"
 server = smtplib.SMTP('smtp.mailgun.org', 587)
@@ -32,6 +36,17 @@ server.starttls()
 server.login(userAddress, userPassword)
 
 msg = "YOUR MESSAGE!"
+html = """\
+<html>
+  <head></head>
+  <body>
+    <p>Hi!<br>
+       How are you?<br>
+       Here is the <a href="http://www.python.org">link</a> you wanted.
+    </p>
+  </body>
+</html>
+"""
 server.sendmail(userAddress,"krystal.folkes@gmail.com", msg)
 server.quit()
 
